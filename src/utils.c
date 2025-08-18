@@ -1,32 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pibreiss <pibreiss@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/07/16 20:48:10 by pibreiss          #+#    #+#             */
-/*   Updated: 2025/08/18 22:53:39 by pibreiss         ###   ########.fr       */
+/*   Created: 2025/08/18 20:37:40 by pibreiss          #+#    #+#             */
+/*   Updated: 2025/08/18 21:12:16 by pibreiss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/philosophers.h"
 
-int	main(int ac, char **av)
+int	ft_atoi_remastered(char *str)
 {
-	t_data	data;
+	int				i;
+	unsigned long	nbr;
 
-	if (ac != 5 && ac != 6)
+	i = 0;
+	nbr = 0;
+	while (str[i])
 	{
-		write(STDOUT_FILENO, "Incorrect number of arguments\n", 30);
-		return (EXIT_FAILURE);
+		nbr = nbr * 10 + (str[i] - '0');
+		i++;
 	}
-	if (!check_argument(ac, av))
-		return (EXIT_FAILURE);
-	if (init_data(&data, ac, av) == EXIT_FAILURE)
-	{
-		write(STDOUT_FILENO, "Initialization failed\n", 22);
-		//free_all
-		return (EXIT_FAILURE);
-	}
+	if (nbr > INT_MAX)
+		return (-1);
+	return ((int)nbr);
 }

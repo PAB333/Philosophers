@@ -6,7 +6,7 @@
 /*   By: pibreiss <pibreiss@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/16 20:48:38 by pibreiss          #+#    #+#             */
-/*   Updated: 2025/07/16 20:53:20 by pibreiss         ###   ########.fr       */
+/*   Updated: 2025/08/18 23:01:25 by pibreiss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,5 +16,43 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
+#include <pthread.h>
+#include <limits.h>
+
+typedef struct s_philo
+{
+	int				id;
+	int				number_of_meals;
+	long long		last_meal;
+	pthread_t		thread_id;
+	pthread_mutex_t	*left_fork;
+	pthread_mutex_t	*right_fork;
+	struct s_data	*data;
+}	t_philo;
+
+
+typedef struct s_data
+{
+	int				nbr_philos;
+	int				time_to_die;
+	int				time_to_eat;
+	int				time_to_sleep;
+	int				must_eat_count;
+	int				dead_flag;
+	long long		start_time;
+	pthread_mutex_t	*forks;
+	pthread_mutex_t	print_mutex;
+	pthread_mutex_t	death_mutex;
+	t_philo			*philos;
+}	t_data;
+
+// parsing
+int	check_argument(int ac, char **av);
+
+// initialization
+int	init_data(t_data *data, int ac, char **av);
+
+// utils
+int	ft_atoi_remastered(char *str);
 
 #endif
