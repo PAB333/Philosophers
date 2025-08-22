@@ -6,13 +6,13 @@
 /*   By: pibreiss <pibreiss@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/18 22:55:02 by pibreiss          #+#    #+#             */
-/*   Updated: 2025/08/18 23:32:11 by pibreiss         ###   ########.fr       */
+/*   Updated: 2025/08/20 01:59:05 by pibreiss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/philosophers.h"
 
-static int	init_philos(t_data *data)
+int	init_philos(t_data *data)
 {
 	int	i;
 
@@ -31,10 +31,9 @@ static int	init_philos(t_data *data)
 		i++;
 	}
 	return (EXIT_SUCCESS);
-	
 }
 
-static int	init_fork(t_data *data)
+int	init_fork(t_data *data)
 {
 	int	i;
 
@@ -66,8 +65,10 @@ int	init_data(t_data *data, int ac, char **av)
 	else
 		data->must_eat_count = -1;
 	data->dead_flag = 0;
+	data->start_time = get_time();
 	if (init_fork(data) == EXIT_FAILURE)
 		return (EXIT_FAILURE);
 	if (init_philos(data) == EXIT_FAILURE)
 		return (EXIT_FAILURE);
+	return (EXIT_SUCCESS);
 }

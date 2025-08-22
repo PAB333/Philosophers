@@ -6,7 +6,7 @@
 /*   By: pibreiss <pibreiss@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/16 20:48:38 by pibreiss          #+#    #+#             */
-/*   Updated: 2025/08/18 23:01:25 by pibreiss         ###   ########.fr       */
+/*   Updated: 2025/08/20 02:15:48 by pibreiss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 #include <unistd.h>
 #include <pthread.h>
 #include <limits.h>
+#include <sys/time.h>
 
 typedef struct s_philo
 {
@@ -52,7 +53,12 @@ int	check_argument(int ac, char **av);
 // initialization
 int	init_data(t_data *data, int ac, char **av);
 
+// simulation
+int	start_simulation(t_data *data);
+
 // utils
-int	ft_atoi_remastered(char *str);
+int			ft_atoi_remastered(char *str);
+long long	get_time(void);
+void		print_status(t_philo *philo, char *status);
 
 #endif
