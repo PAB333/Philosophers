@@ -6,7 +6,7 @@
 /*   By: pibreiss <pibreiss@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/18 20:37:40 by pibreiss          #+#    #+#             */
-/*   Updated: 2025/08/20 02:18:09 by pibreiss         ###   ########.fr       */
+/*   Updated: 2025/09/17 16:45:01 by pibreiss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,4 +48,38 @@ void	print_status(t_philo *philo, char *status)
 		printf("%lld %d %s\n", time, philo->id, status);
 	}
 	pthread_mutex_unlock(&philo->data->print_mutex);
+}
+
+int	is_dead(t_philo *philo)
+{
+	pthread_mutex_lock(&philo->data->death_mutex);
+	if (philo->data->dead_flag)
+	{
+		pthread_mutex_unlock(&philo->data->death_mutex);
+		return (1);
+	}
+	pthread_mutex_unlock(&philo->data->death_mutex);
+	return (0);
+}
+
+int	check_philo_death(t_data *data)
+{
+	int	i;
+
+	i = 0;
+	while (i < data->nbr_philos)
+	{
+		pthread_mutex_lock(&data->death_mutex);
+		if ((get_time() - data->philos[i].last_meal) > data->time_to_die
+			&& !data->dead_flag)
+		{
+			print_status(&data->philos[i], "died");
+			data->dead_flag = 1;
+			pthread_mutex_unlock(&data->death_mutex);
+			return (1);
+		}
+		pthread_mutex_unlock(&data->death_mutex);
+		i++;
+	}
+	return (0);
 }

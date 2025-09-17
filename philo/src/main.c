@@ -6,7 +6,7 @@
 /*   By: pibreiss <pibreiss@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/16 20:48:10 by pibreiss          #+#    #+#             */
-/*   Updated: 2025/08/20 02:23:26 by pibreiss         ###   ########.fr       */
+/*   Updated: 2025/09/17 17:10:46 by pibreiss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,22 +18,24 @@ int	main(int ac, char **av)
 
 	if (ac != 5 && ac != 6)
 	{
-		write(STDOUT_FILENO, "Error: Incorrect number of arguments\n", 30);
+		write(STDOUT_FILENO, "Error: Incorrect number of arguments\n", 37);
 		return (EXIT_FAILURE);
 	}
-	if (!check_argument(ac, av))
+	if (check_argument(ac, av) == EXIT_FAILURE)
 		return (EXIT_FAILURE);
+	ft_memset(&data, 0, sizeof(t_data));
 	if (init_data(&data, ac, av) == EXIT_FAILURE)
 	{
-		write(STDOUT_FILENO, "Error: Initialization failed\n", 22);
-		//free_all
+		write(STDOUT_FILENO, "Error: Initialization failed\n", 29);
+		free_all(&data);
 		return (EXIT_FAILURE);
 	}
 	if (start_simulation(&data) == EXIT_FAILURE)
 	{
 		write(STDOUT_FILENO, "Error: Simulation failed\n", 25);
-		//free_all
+		free_all(&data);
 		return (EXIT_FAILURE);
 	}
+	free_all(&data);
 	return (EXIT_SUCCESS);
 }

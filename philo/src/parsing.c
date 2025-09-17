@@ -6,7 +6,7 @@
 /*   By: pibreiss <pibreiss@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/18 20:17:36 by pibreiss          #+#    #+#             */
-/*   Updated: 2025/08/20 01:51:06 by pibreiss         ###   ########.fr       */
+/*   Updated: 2025/09/17 16:47:52 by pibreiss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,20 +40,20 @@ int	check_argument(int ac, char **av)
 	{
 		if (is_it_a_number(av[i]) == EXIT_FAILURE)
 		{
-			write(STDOUT_FILENO, "Error: non-digital characters\n", 23);
+			write(STDOUT_FILENO, "Error: non-digital characters\n", 30);
 			return (EXIT_FAILURE);
 		}
 		nbr = ft_atoi_remastered(av[i]);
 		if (nbr < 0)
 		{
-			write(STDOUT_FILENO, "Error: Number too large\n", 17);
+			write(STDOUT_FILENO, "Error: Number too large\n", 24);
 			return (EXIT_FAILURE);
 		}
 		i++;
 	}
 	if (ft_atoi_remastered(av[1]) == 0)
 	{
-		write(STDERR_FILENO, "Error: Number of philosophers must be at least 1.\n", 50);
+		write(STDERR_FILENO, "Error: Number of philosophers < 1\n", 34);
 		return (EXIT_FAILURE);
 	}
 	return (EXIT_SUCCESS);

@@ -6,7 +6,7 @@
 /*   By: pibreiss <pibreiss@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/18 22:55:02 by pibreiss          #+#    #+#             */
-/*   Updated: 2025/08/20 01:59:05 by pibreiss         ###   ########.fr       */
+/*   Updated: 2025/09/17 16:26:52 by pibreiss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,15 +44,31 @@ int	init_fork(t_data *data)
 	while (i < data->nbr_philos)
 	{
 		if (pthread_mutex_init(&data->forks[i], NULL) != 0)
+		{
+			while (--i >= 0)
+				pthread_mutex_destroy(&data->forks[i]);
+			free(data->forks);
 			return (EXIT_FAILURE);
+		}
 		i++;
 	}
 	if (pthread_mutex_init(&data->print_mutex, NULL) != 0)
+	{
+		while (--i >= 0)
+			pthread_mutex_destroy(&data->forks[i]);
+		free(data->forks);
 		return (EXIT_FAILURE);
+	}
 	if (pthread_mutex_init(&data->death_mutex, NULL) != 0)
+	{
+		while (--i >= 0)
+			pthread_mutex_destroy(&data->forks[i]);
+		pthread_mutex_destroy(&data->print_mutex);
+		free(data->forks);
 		return (EXIT_FAILURE);
+	}
 	return (EXIT_SUCCESS);
-}	
+}
 
 int	init_data(t_data *data, int ac, char **av)
 {
@@ -69,6 +85,9 @@ int	init_data(t_data *data, int ac, char **av)
 	if (init_fork(data) == EXIT_FAILURE)
 		return (EXIT_FAILURE);
 	if (init_philos(data) == EXIT_FAILURE)
+	{
+		free_all(data);
 		return (EXIT_FAILURE);
+	}
 	return (EXIT_SUCCESS);
 }
