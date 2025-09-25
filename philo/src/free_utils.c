@@ -6,11 +6,12 @@
 /*   By: pibreiss <pibreiss@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/17 16:13:55 by pibreiss          #+#    #+#             */
-/*   Updated: 2025/09/17 16:32:14 by pibreiss         ###   ########.fr       */
+/*   Updated: 2025/09/25 14:04:10 by pibreiss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/philosophers.h"
+#include <stdlib.h>
 
 void	free_all(t_data *data)
 {

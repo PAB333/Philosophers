@@ -6,11 +6,14 @@
 /*   By: pibreiss <pibreiss@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/18 20:37:40 by pibreiss          #+#    #+#             */
-/*   Updated: 2025/09/17 16:45:01 by pibreiss         ###   ########.fr       */
+/*   Updated: 2025/09/25 14:03:03 by pibreiss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/philosophers.h"
+#include <sys/time.h>
+#include <limits.h>
+#include <stdio.h>
 
 int	ft_atoi_remastered(char *str)
 {
@@ -31,10 +34,10 @@ int	ft_atoi_remastered(char *str)
 
 long long	get_time(void)
 {
-	struct timeval	tv;
+	struct timeval	time;
 
-	gettimeofday(&tv, NULL);
-	return ((tv.tv_sec * 1000) + (tv.tv_usec / 1000));
+	gettimeofday(&time, NULL);
+	return ((time.tv_sec * 1000) + (time.tv_usec / 1000));
 }
 
 void	print_status(t_philo *philo, char *status)

@@ -6,19 +6,14 @@
 /*   By: pibreiss <pibreiss@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/16 20:48:38 by pibreiss          #+#    #+#             */
-/*   Updated: 2025/09/17 16:32:29 by pibreiss         ###   ########.fr       */
+/*   Updated: 2025/09/25 14:03:29 by pibreiss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PHILOSOPHERS_H
 # define PHILOSOPHERS_H
 
-# include <stdio.h>
-# include <stdlib.h>
-# include <unistd.h>
 # include <pthread.h>
-# include <limits.h>
-# include <sys/time.h>
 
 typedef struct s_philo
 {

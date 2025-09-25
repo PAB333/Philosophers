@@ -6,11 +6,13 @@
 /*   By: pibreiss <pibreiss@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/18 20:17:36 by pibreiss          #+#    #+#             */
-/*   Updated: 2025/09/17 16:47:52 by pibreiss         ###   ########.fr       */
+/*   Updated: 2025/09/25 14:01:47 by pibreiss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/philosophers.h"
+#include <stdlib.h>
+#include <unistd.h>
 
 int	is_it_a_number(char	*str)
 {

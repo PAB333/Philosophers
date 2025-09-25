@@ -6,11 +6,12 @@
 /*   By: pibreiss <pibreiss@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/18 22:55:02 by pibreiss          #+#    #+#             */
-/*   Updated: 2025/09/17 16:26:52 by pibreiss         ###   ########.fr       */
+/*   Updated: 2025/09/25 14:00:19 by pibreiss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/philosophers.h"
+#include <stdlib.h>
 
 int	init_philos(t_data *data)
 {

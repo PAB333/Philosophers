@@ -6,11 +6,13 @@
 /*   By: pibreiss <pibreiss@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/20 02:03:11 by pibreiss          #+#    #+#             */
-/*   Updated: 2025/09/17 17:16:59 by pibreiss         ###   ########.fr       */
+/*   Updated: 2025/09/25 14:03:59 by pibreiss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/philosophers.h"
+#include <stdlib.h>
+#include <unistd.h>
 
 void	philo_eat(t_philo *philo)
 {
@@ -20,7 +22,7 @@ void	philo_eat(t_philo *philo)
 	{
 		usleep(philo->data->time_to_die * 1000);
 		pthread_mutex_unlock(philo->left_fork);
-		return;
+		return ;
 	}
 	pthread_mutex_lock(philo->right_fork);
 	print_status(philo, "has taken a fork");
@@ -45,7 +47,7 @@ void	*routine(void *philo_ptr)
 	{
 		philo_eat(philo);
 		if (philo->data->nbr_philos == 1)
-			break;
+			break ;
 		print_status(philo, "is sleeping");
 		usleep(philo->data->time_to_sleep * 1000);
 		print_status(philo, "is thinking");

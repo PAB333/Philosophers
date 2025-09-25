@@ -6,11 +6,13 @@
 /*   By: pibreiss <pibreiss@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/16 20:48:10 by pibreiss          #+#    #+#             */
-/*   Updated: 2025/09/17 17:10:46 by pibreiss         ###   ########.fr       */
+/*   Updated: 2025/09/25 14:01:05 by pibreiss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/philosophers.h"
+#include <stdlib.h>
+#include <unistd.h>
 
 int	main(int ac, char **av)
 {
