@@ -6,7 +6,7 @@
 /*   By: pibreiss <pibreiss@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/17 16:13:55 by pibreiss          #+#    #+#             */
-/*   Updated: 2025/09/25 14:04:10 by pibreiss         ###   ########.fr       */
+/*   Updated: 2025/09/26 18:16:27 by pibreiss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,8 @@ void	free_all(t_data *data)
 	}
 	pthread_mutex_destroy(&data->print_mutex);
 	pthread_mutex_destroy(&data->death_mutex);
+	pthread_mutex_destroy(&data->data_mutex);
+	pthread_mutex_destroy(&data->start_mutex);
 	if (data->philos)
 		free(data->philos);
 }
@@ -46,4 +48,23 @@ void	*ft_memset(void *s, int c, size_t n)
 		i++;
 	}
 	return (s);
+}
+
+void	destroy_mutex_init(t_data *data, int nb_forks)
+{
+	int	i;
+
+	i = 0;
+	while (i < nb_forks)
+	{
+		pthread_mutex_destroy(&data->forks[i]);
+		i++;
+	}
+	free(data->forks);
+	if (nb_forks <= -1)
+		pthread_mutex_destroy(&data->print_mutex);
+	if (nb_forks <= -2)
+		pthread_mutex_destroy(&data->death_mutex);
+	if (nb_forks == -3)
+		pthread_mutex_destroy(&data->data_mutex);
 }

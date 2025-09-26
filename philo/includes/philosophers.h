@@ -6,7 +6,7 @@
 /*   By: pibreiss <pibreiss@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/16 20:48:38 by pibreiss          #+#    #+#             */
-/*   Updated: 2025/09/25 14:03:29 by pibreiss         ###   ########.fr       */
+/*   Updated: 2025/09/26 18:13:08 by pibreiss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,8 +36,10 @@ typedef struct s_data
 	int				dead_flag;
 	long long		start_time;
 	pthread_mutex_t	*forks;
+	pthread_mutex_t	data_mutex;
 	pthread_mutex_t	print_mutex;
 	pthread_mutex_t	death_mutex;
+	pthread_mutex_t	start_mutex;
 	t_philo			*philos;
 }	t_data;
 
@@ -60,5 +62,9 @@ int			check_philo_death(t_data *data);
 // free_utils
 void		free_all(t_data *data);
 void		*ft_memset(void *s, int c, size_t n);
+void		destroy_mutex_init(t_data *data, int nb_forks);
+
+// fork_util
+void		assign_forks(t_philo *p, pthread_mutex_t **f, pthread_mutex_t **s);
 
 #endif

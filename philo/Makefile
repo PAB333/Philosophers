@@ -6,7 +6,7 @@
 #    By: pibreiss <pibreiss@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/09/17 17:17:46 by pibreiss          #+#    #+#              #
-#    Updated: 2025/09/17 17:21:48 by pibreiss         ###   ########.fr        #
+#    Updated: 2025/09/26 18:08:36 by pibreiss         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,6 +22,7 @@ SRC = 	src/free_utils.c \
 		src/parsing.c \
 		src/simulation.c \
 		src/utils.c \
+		src/fork_util.c \
 
 OBJ = $(SRC:.c=.o)
 

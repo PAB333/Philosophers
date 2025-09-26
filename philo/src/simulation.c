@@ -6,7 +6,7 @@
 /*   By: pibreiss <pibreiss@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/20 02:03:11 by pibreiss          #+#    #+#             */
-/*   Updated: 2025/09/25 14:03:59 by pibreiss         ###   ########.fr       */
+/*   Updated: 2025/09/26 18:25:27 by pibreiss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,24 +16,28 @@
 
 void	philo_eat(t_philo *philo)
 {
-	pthread_mutex_lock(philo->left_fork);
+	pthread_mutex_t	*first_fork;
+	pthread_mutex_t	*second_fork;
+
+	assign_forks(philo, &first_fork, &second_fork);
+	pthread_mutex_lock(first_fork);
 	print_status(philo, "has taken a fork");
 	if (philo->data->nbr_philos == 1)
 	{
 		usleep(philo->data->time_to_die * 1000);
-		pthread_mutex_unlock(philo->left_fork);
+		pthread_mutex_unlock(first_fork);
 		return ;
 	}
-	pthread_mutex_lock(philo->right_fork);
+	pthread_mutex_lock(second_fork);
 	print_status(philo, "has taken a fork");
 	print_status(philo, "is eating");
-	pthread_mutex_lock(&philo->data->death_mutex);
+	pthread_mutex_lock(&philo->data->data_mutex);
 	philo->last_meal = get_time();
 	philo->number_of_meals++;
-	pthread_mutex_unlock(&philo->data->death_mutex);
+	pthread_mutex_unlock(&philo->data->data_mutex);
 	usleep(philo->data->time_to_eat * 1000);
-	pthread_mutex_unlock(philo->right_fork);
-	pthread_mutex_unlock(philo->left_fork);
+	pthread_mutex_unlock(second_fork);
+	pthread_mutex_unlock(first_fork);
 }
 
 void	*routine(void *philo_ptr)
@@ -41,6 +45,8 @@ void	*routine(void *philo_ptr)
 	t_philo	*philo;
 
 	philo = (t_philo *)philo_ptr;
+	pthread_mutex_lock(&philo->data->start_mutex);
+	pthread_mutex_unlock(&philo->data->start_mutex);
 	if (philo->id % 2 == 0)
 		usleep(1000);
 	while (!is_dead(philo))
@@ -66,10 +72,12 @@ int	check_all_ate(t_data *data)
 	all_have_eaten = 1;
 	while (i < data->nbr_philos)
 	{
-		pthread_mutex_lock(&data->death_mutex);
+		pthread_mutex_lock(&data->data_mutex);
 		if (data->philos[i].number_of_meals < data->must_eat_count)
 			all_have_eaten = 0;
-		pthread_mutex_unlock(&data->death_mutex);
+		pthread_mutex_unlock(&data->data_mutex);
+		if (!all_have_eaten)
+			break ;
 		i++;
 	}
 	if (all_have_eaten)
@@ -97,6 +105,7 @@ int	start_simulation(t_data *data)
 	int	i;
 
 	i = 0;
+	pthread_mutex_lock(&data->start_mutex);
 	while (i < data->nbr_philos)
 	{
 		data->philos[i].last_meal = get_time();
@@ -105,6 +114,7 @@ int	start_simulation(t_data *data)
 			return (EXIT_FAILURE);
 		i++;
 	}
+	pthread_mutex_unlock(&data->start_mutex);
 	is_this_the_end(data);
 	i = 0;
 	while (i < data->nbr_philos)

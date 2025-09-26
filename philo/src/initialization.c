@@ -6,7 +6,7 @@
 /*   By: pibreiss <pibreiss@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/18 22:55:02 by pibreiss          #+#    #+#             */
-/*   Updated: 2025/09/25 14:00:19 by pibreiss         ###   ########.fr       */
+/*   Updated: 2025/09/26 18:14:21 by pibreiss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,31 @@ int	init_philos(t_data *data)
 	return (EXIT_SUCCESS);
 }
 
+int	init_data_mutex(t_data *data)
+{
+	if (pthread_mutex_init(&data->print_mutex, NULL) != 0)
+	{
+		destroy_mutex_init(data, data->nbr_philos);
+		return (EXIT_FAILURE);
+	}
+	if (pthread_mutex_init(&data->death_mutex, NULL) != 0)
+	{
+		destroy_mutex_init(data, -1);
+		return (EXIT_FAILURE);
+	}
+	if (pthread_mutex_init(&data->data_mutex, NULL) != 0)
+	{
+		destroy_mutex_init(data, -2);
+		return (EXIT_FAILURE);
+	}
+	if (pthread_mutex_init(&data->start_mutex, NULL) != 0)
+	{
+		destroy_mutex_init(data, -3);
+		return (EXIT_FAILURE);
+	}
+	return (EXIT_SUCCESS);
+}
+
 int	init_fork(t_data *data)
 {
 	int	i;
@@ -46,28 +71,13 @@ int	init_fork(t_data *data)
 	{
 		if (pthread_mutex_init(&data->forks[i], NULL) != 0)
 		{
-			while (--i >= 0)
-				pthread_mutex_destroy(&data->forks[i]);
-			free(data->forks);
+			destroy_mutex_init(data, i);
 			return (EXIT_FAILURE);
 		}
 		i++;
 	}
-	if (pthread_mutex_init(&data->print_mutex, NULL) != 0)
-	{
-		while (--i >= 0)
-			pthread_mutex_destroy(&data->forks[i]);
-		free(data->forks);
+	if (init_data_mutex(data) != EXIT_SUCCESS)
 		return (EXIT_FAILURE);
-	}
-	if (pthread_mutex_init(&data->death_mutex, NULL) != 0)
-	{
-		while (--i >= 0)
-			pthread_mutex_destroy(&data->forks[i]);
-		pthread_mutex_destroy(&data->print_mutex);
-		free(data->forks);
-		return (EXIT_FAILURE);
-	}
 	return (EXIT_SUCCESS);
 }
 
