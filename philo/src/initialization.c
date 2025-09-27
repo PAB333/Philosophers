@@ -6,7 +6,7 @@
 /*   By: pibreiss <pibreiss@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/18 22:55:02 by pibreiss          #+#    #+#             */
-/*   Updated: 2025/09/27 17:49:41 by pibreiss         ###   ########.fr       */
+/*   Updated: 2025/09/27 17:59:34 by pibreiss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,11 +36,11 @@ int	init_philos(t_data *data)
 
 int	init_data_mutex(t_data *data)
 {
-	// if (pthread_mutex_init(&data->print_mutex, NULL) != 0)
-	// {
-	// 	destroy_mutex_init(data, data->nbr_philos);
-	// 	return (EXIT_FAILURE);
-	// }
+	if (pthread_mutex_init(&data->print_mutex, NULL) != 0)
+	{
+		destroy_mutex_init(data, data->nbr_philos);
+		return (EXIT_FAILURE);
+	}
 	if (pthread_mutex_init(&data->death_mutex, NULL) != 0)
 	{
 		destroy_mutex_init(data, -1);

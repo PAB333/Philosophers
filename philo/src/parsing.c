@@ -6,7 +6,7 @@
 /*   By: pibreiss <pibreiss@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/18 20:17:36 by pibreiss          #+#    #+#             */
-/*   Updated: 2025/09/25 14:01:47 by pibreiss         ###   ########.fr       */
+/*   Updated: 2025/09/27 20:44:09 by pibreiss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,9 +53,9 @@ int	check_argument(int ac, char **av)
 		}
 		i++;
 	}
-	if (ft_atoi_remastered(av[1]) == 0)
+	if (ft_atoi_remastered(av[1]) == 0 || ft_atoi_remastered(av[1]) > 500)
 	{
-		write(STDERR_FILENO, "Error: Number of philosophers < 1\n", 34);
+		write(STDERR_FILENO, "Error: Number of philosophers\n", 30);
 		return (EXIT_FAILURE);
 	}
 	return (EXIT_SUCCESS);
