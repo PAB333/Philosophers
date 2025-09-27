@@ -6,7 +6,7 @@
 /*   By: pibreiss <pibreiss@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/17 16:13:55 by pibreiss          #+#    #+#             */
-/*   Updated: 2025/09/26 18:16:27 by pibreiss         ###   ########.fr       */
+/*   Updated: 2025/09/27 17:54:40 by pibreiss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,9 @@ void	free_all(t_data *data)
 	i = 0;
 	if (data->forks)
 	{
-		while (i < data->nbr_philos)
+		while (i < data->initialized_forks)
 		{
-			pthread_mutex_destroy(&data->forks[i]);
+			pthread_mutex_destroy(&data->forks[i].fork_mutex);
 			i++;
 		}
 		free(data->forks);
@@ -57,10 +57,9 @@ void	destroy_mutex_init(t_data *data, int nb_forks)
 	i = 0;
 	while (i < nb_forks)
 	{
-		pthread_mutex_destroy(&data->forks[i]);
+		pthread_mutex_destroy(&data->forks[i].fork_mutex);
 		i++;
 	}
-	free(data->forks);
 	if (nb_forks <= -1)
 		pthread_mutex_destroy(&data->print_mutex);
 	if (nb_forks <= -2)

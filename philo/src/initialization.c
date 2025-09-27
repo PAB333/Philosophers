@@ -6,7 +6,7 @@
 /*   By: pibreiss <pibreiss@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/18 22:55:02 by pibreiss          #+#    #+#             */
-/*   Updated: 2025/09/26 18:14:21 by pibreiss         ###   ########.fr       */
+/*   Updated: 2025/09/27 17:49:41 by pibreiss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,11 +36,11 @@ int	init_philos(t_data *data)
 
 int	init_data_mutex(t_data *data)
 {
-	if (pthread_mutex_init(&data->print_mutex, NULL) != 0)
-	{
-		destroy_mutex_init(data, data->nbr_philos);
-		return (EXIT_FAILURE);
-	}
+	// if (pthread_mutex_init(&data->print_mutex, NULL) != 0)
+	// {
+	// 	destroy_mutex_init(data, data->nbr_philos);
+	// 	return (EXIT_FAILURE);
+	// }
 	if (pthread_mutex_init(&data->death_mutex, NULL) != 0)
 	{
 		destroy_mutex_init(data, -1);
@@ -64,18 +64,22 @@ int	init_fork(t_data *data)
 	int	i;
 
 	i = 0;
-	data->forks = malloc(sizeof(pthread_mutex_t) * data->nbr_philos);
+	data->forks = malloc(sizeof(t_fork) * data->nbr_philos);
 	if (!data->forks)
 		return (EXIT_FAILURE);
 	while (i < data->nbr_philos)
 	{
-		if (pthread_mutex_init(&data->forks[i], NULL) != 0)
+		if (pthread_mutex_init(&data->forks[i].fork_mutex, NULL) != 0)
 		{
 			destroy_mutex_init(data, i);
+			free(data->forks);
+			data->forks = NULL;
 			return (EXIT_FAILURE);
 		}
+		data->forks[i].is_taken = false;
 		i++;
 	}
+	data->initialized_forks = i;
 	if (init_data_mutex(data) != EXIT_SUCCESS)
 		return (EXIT_FAILURE);
 	return (EXIT_SUCCESS);
@@ -92,13 +96,10 @@ int	init_data(t_data *data, int ac, char **av)
 	else
 		data->must_eat_count = -1;
 	data->dead_flag = 0;
-	data->start_time = get_time();
+	data->initialized_forks = 0;
 	if (init_fork(data) == EXIT_FAILURE)
 		return (EXIT_FAILURE);
 	if (init_philos(data) == EXIT_FAILURE)
-	{
-		free_all(data);
 		return (EXIT_FAILURE);
-	}
 	return (EXIT_SUCCESS);
 }

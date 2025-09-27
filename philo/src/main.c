@@ -6,7 +6,7 @@
 /*   By: pibreiss <pibreiss@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/16 20:48:10 by pibreiss          #+#    #+#             */
-/*   Updated: 2025/09/26 17:59:16 by pibreiss         ###   ########.fr       */
+/*   Updated: 2025/09/27 15:45:12 by pibreiss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ int	main(int ac, char **av)
 	if (init_data(&data, ac, av) == EXIT_FAILURE)
 	{
 		write(STDOUT_FILENO, "Error: Initialization failed\n", 29);
+		free_all(&data);
 		return (EXIT_FAILURE);
 	}
 	if (start_simulation(&data) == EXIT_FAILURE)
