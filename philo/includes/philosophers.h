@@ -6,7 +6,7 @@
 /*   By: pibreiss <pibreiss@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/16 20:48:38 by pibreiss          #+#    #+#             */
-/*   Updated: 2025/09/27 17:54:33 by pibreiss         ###   ########.fr       */
+/*   Updated: 2025/09/28 23:34:17 by pibreiss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,6 @@ int			start_simulation(t_data *data);
 
 // utils
 int			ft_atoi_remastered(char *str);
-long long	get_time(void);
 void		print_status(t_philo *philo, char *status);
 int			is_dead(t_philo *philo);
 int			check_philo_death(t_data *data);
@@ -74,8 +73,13 @@ void		destroy_mutex_init(t_data *data, int nb_forks);
 
 // simulation_and_fork_util
 void		assign_forks(t_philo *p, t_fork **f, t_fork **s);
-void		single_philo(t_philo *philo, t_fork *fork);
 int			check_all_ate(t_data *data);
 void		is_this_the_end(t_data *data);
+void		take_fork(t_fork *fork, t_philo *philo);
+void		release_fork(t_fork *fork);
+
+// time_utils
+void		ft_usleep(long long time, t_data *data);
+long long	get_time(void);
 
 #endif

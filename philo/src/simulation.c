@@ -6,7 +6,7 @@
 /*   By: pibreiss <pibreiss@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/20 02:03:11 by pibreiss          #+#    #+#             */
-/*   Updated: 2025/09/27 20:35:01 by pibreiss         ###   ########.fr       */
+/*   Updated: 2025/09/28 23:31:59 by pibreiss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,27 +20,22 @@ void	philo_eat(t_philo *philo)
 	t_fork	*second_fork;
 
 	assign_forks(philo, &first_fork, &second_fork);
-	pthread_mutex_lock(&first_fork->fork_mutex);
-	first_fork->is_taken = true;
-	print_status(philo, "has taken a fork");
+	take_fork(first_fork, philo);
 	if (philo->data->nbr_philos == 1)
 	{
-		single_philo(philo, first_fork);
+		ft_usleep(philo->data->time_to_die, philo->data);
+		release_fork(first_fork);
 		return ;
 	}
-	pthread_mutex_lock(&second_fork->fork_mutex);
-	second_fork->is_taken = true;
-	print_status(philo, "has taken a fork");
+	take_fork(second_fork, philo);
 	print_status(philo, "is eating");
+	ft_usleep(philo->data->time_to_eat, philo->data);
 	pthread_mutex_lock(&philo->data->data_mutex);
 	philo->last_meal = get_time();
 	philo->number_of_meals++;
 	pthread_mutex_unlock(&philo->data->data_mutex);
-	usleep(philo->data->time_to_eat * 1000);
-	second_fork->is_taken = false;
-	pthread_mutex_unlock(&second_fork->fork_mutex);
-	first_fork->is_taken = false;
-	pthread_mutex_unlock(&first_fork->fork_mutex);
+	release_fork(second_fork);
+	release_fork(first_fork);
 }
 
 void	*routine(void *philo_ptr)
@@ -51,15 +46,15 @@ void	*routine(void *philo_ptr)
 	pthread_mutex_lock(&philo->data->start_mutex);
 	pthread_mutex_unlock(&philo->data->start_mutex);
 	if (philo->id % 2 == 0)
-		usleep(1000);
+		usleep(100);
 	while (!is_dead(philo))
 	{
+		print_status(philo, "is thinking");
 		philo_eat(philo);
 		if (philo->data->nbr_philos == 1)
 			break ;
 		print_status(philo, "is sleeping");
-		usleep(philo->data->time_to_sleep * 1000);
-		print_status(philo, "is thinking");
+		ft_usleep(philo->data->time_to_sleep, philo->data);
 	}
 	return (NULL);
 }

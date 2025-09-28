@@ -6,7 +6,7 @@
 /*   By: pibreiss <pibreiss@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/26 18:07:34 by pibreiss          #+#    #+#             */
-/*   Updated: 2025/09/27 20:34:34 by pibreiss         ###   ########.fr       */
+/*   Updated: 2025/09/28 22:35:56 by pibreiss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,13 +25,6 @@ void	assign_forks(t_philo *p, t_fork **f, t_fork **s)
 		*f = p->right_fork;
 		*s = p->left_fork;
 	}
-}
-
-void	single_philo(t_philo *philo, t_fork *fork)
-{
-	usleep(philo->data->time_to_die * 1000);
-	fork->is_taken = false;
-	pthread_mutex_unlock(&fork->fork_mutex);
 }
 
 int	check_all_ate(t_data *data)
@@ -71,4 +64,28 @@ void	is_this_the_end(t_data *data)
 			break ;
 		usleep(100);
 	}
+}
+
+void	take_fork(t_fork *fork, t_philo *philo)
+{
+	while (1)
+	{
+		pthread_mutex_lock(&fork->fork_mutex);
+		if (!fork->is_taken)
+		{
+			fork->is_taken = true;
+			pthread_mutex_unlock(&fork->fork_mutex);
+			print_status(philo, "has taken a fork");
+			return ;
+		}
+		pthread_mutex_unlock(&fork->fork_mutex);
+		usleep(100);
+	}
+}
+
+void	release_fork(t_fork *fork)
+{
+	pthread_mutex_lock(&fork->fork_mutex);
+	fork->is_taken = false;
+	pthread_mutex_unlock(&fork->fork_mutex);
 }

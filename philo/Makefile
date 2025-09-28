@@ -6,7 +6,7 @@
 #    By: pibreiss <pibreiss@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/09/17 17:17:46 by pibreiss          #+#    #+#              #
-#    Updated: 2025/09/27 17:39:10 by pibreiss         ###   ########.fr        #
+#    Updated: 2025/09/28 23:44:03 by pibreiss         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,9 @@ NAME = philo
 
 CC = cc
 
-CFLAGS = -Wall -Wextra -Werror
+CFLAGS = -Wall -Wextra -Werror -pthread
+
+OBJ_DIR = .obj;
 
 SRC = 	src/free_utils.c \
 		src/initialization.c \
@@ -23,20 +25,25 @@ SRC = 	src/free_utils.c \
 		src/simulation.c \
 		src/utils.c \
 		src/simulation_and_fork_util.c \
+		src/time_utils.c \
 
-OBJ = $(SRC:.c=.o)
+HEADER = includes/philosophers.h
 
-$(NAME): $(OBJ)
-	$(CC) $(CFLAGS) $(SRC) -Iincludes -o $(NAME)
+OBJS = $(SRC:src/%.c=$(OBJ_DIR)/%.o)
 
-all : $(NAME)
+all: $(NAME)
 
-clean :
-	rm -rf $(OBJ)
+$(NAME): $(OBJS)
+	$(CC) $(OBJS) -o $(NAME) -pthread
 
-fclean : clean
-	rm -rf $(NAME)
+$(OBJ_DIR)/%.o: src/%.c $(HEADER)
+	@mkdir -p $(OBJ_DIR)
+	$(CC) $(CFLAGS) -c $< -o $@
+
+clean:
+	rm -rf $(OBJ_DIR)
+
+fclean: clean
+	rm -f $(NAME)
 
 re: fclean all
-
-.PHONY: all clean fclean re
