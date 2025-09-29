@@ -6,7 +6,7 @@
 /*   By: pibreiss <pibreiss@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/18 20:37:40 by pibreiss          #+#    #+#             */
-/*   Updated: 2025/09/29 01:42:31 by pibreiss         ###   ########.fr       */
+/*   Updated: 2025/09/29 04:22:32 by pibreiss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ int	check_philo_death(t_data *data)
 	{
 		pthread_mutex_lock(&data->data_mutex);
 		time = get_time() - data->philos[i].last_meal;
-		if (time >= data->time_to_die)
+		if (time > data->time_to_die)
 		{
 			pthread_mutex_unlock(&data->data_mutex);
 			print_status(&data->philos[i], "died");

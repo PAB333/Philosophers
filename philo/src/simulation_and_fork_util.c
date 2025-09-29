@@ -6,7 +6,7 @@
 /*   By: pibreiss <pibreiss@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/26 18:07:34 by pibreiss          #+#    #+#             */
-/*   Updated: 2025/09/29 01:38:43 by pibreiss         ###   ########.fr       */
+/*   Updated: 2025/09/29 04:24:49 by pibreiss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,15 +15,15 @@
 
 void	assign_forks(t_philo *p, t_fork **f, t_fork **s)
 {
-	if (p->id % 2 == 0)
-	{
-		*f = p->left_fork;
-		*s = p->right_fork;
-	}
-	else
+	if (p->id == p->data->nbr_philos)
 	{
 		*f = p->right_fork;
 		*s = p->left_fork;
+	}
+	else
+	{
+		*f = p->left_fork;
+		*s = p->right_fork;
 	}
 }
 
@@ -79,7 +79,7 @@ void	take_fork(t_fork *fork, t_philo *philo)
 			return ;
 		}
 		pthread_mutex_unlock(&fork->fork_mutex);
-		usleep(100);
+		usleep(500);
 	}
 }
 

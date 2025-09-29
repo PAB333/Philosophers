@@ -6,7 +6,7 @@
 #    By: pibreiss <pibreiss@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/09/17 17:17:46 by pibreiss          #+#    #+#              #
-#    Updated: 2025/09/29 01:22:49 by pibreiss         ###   ########.fr        #
+#    Updated: 2025/09/29 04:04:58 by pibreiss         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,7 @@ NAME = philo
 
 CC = cc
 
-CFLAGS = -Wall -Wextra -Werror -pthread
+CFLAGS = -Wall -Wextra -Werror
 
 OBJ_DIR = .obj
 

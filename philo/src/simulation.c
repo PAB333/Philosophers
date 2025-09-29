@@ -6,7 +6,7 @@
 /*   By: pibreiss <pibreiss@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/20 02:03:11 by pibreiss          #+#    #+#             */
-/*   Updated: 2025/09/29 02:00:03 by pibreiss         ###   ########.fr       */
+/*   Updated: 2025/09/29 04:24:42 by pibreiss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,14 +28,16 @@ void	philo_eat(t_philo *philo)
 		return ;
 	}
 	take_fork(second_fork, philo);
-	print_status(philo, "is eating");
-	ft_usleep(philo->data->time_to_eat, philo->data);
-	pthread_mutex_lock(&philo->data->data_mutex);
-	philo->last_meal = get_time();
-	philo->number_of_meals++;
-	pthread_mutex_unlock(&philo->data->data_mutex);
-	release_fork(second_fork);
-	release_fork(first_fork);
+	    pthread_mutex_lock(&philo->data->data_mutex);
+    philo->last_meal = get_time();
+    pthread_mutex_unlock(&philo->data->data_mutex);
+    print_status(philo, "is eating");
+    ft_usleep(philo->data->time_to_eat, philo->data);
+    pthread_mutex_lock(&philo->data->data_mutex);
+    philo->number_of_meals++;
+    pthread_mutex_unlock(&philo->data->data_mutex);
+    release_fork(second_fork);
+    release_fork(first_fork);
 }
 
 void	*routine(void *philo_ptr)
@@ -46,7 +48,7 @@ void	*routine(void *philo_ptr)
 	pthread_mutex_lock(&philo->data->start_mutex);
 	pthread_mutex_unlock(&philo->data->start_mutex);
 	if (philo->id % 2 == 0)
-		usleep(100);
+		usleep(500);
 	while (!is_dead(philo))
 	{
 		print_status(philo, "is thinking");
